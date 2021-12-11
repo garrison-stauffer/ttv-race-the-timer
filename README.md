@@ -107,3 +107,26 @@ Ensure the python app is running then do the following:
   - Once the app is deployed to the cloud, this will be the real URL. Users should enter the url `/obsplugin/{token}`
 
 ![image](docs/obs-add-plugin.gif)
+
+
+## SSH to the server
+
+There's an EC2 instance running. The private IP is at 172.31.92.224, will need a key set up to access it.
+
+```
+ssh ubuntu@100.26.97.247
+```
+
+The project is setup to run in tmux using the key `ttv-timer-app`
+
+### Attach to the session:
+
+```
+tmux a -t ttv-timer-app
+```
+
+### Detach from the session
+This will leave the session running in the background
+```
+ctrl + b  >  d
+```
