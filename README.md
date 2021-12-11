@@ -64,6 +64,26 @@ Sign in flow for our app:
 Eventually we probably need some proper login, maybe we can use twitch auth for them to sign in.
 Not too worried about it for the time being since it should be short lived.
 
+### Streaming events to the plugin
+
+I think we can support getting events to the plugin (i.e. the browser) by holding onto events in memory on our server - and then passing them off to the browser when it requests them.
+The browser will poll on some cadence to get the latest events - and apply any deltas using javascript.
+
+The server will need to make sure that we have an ongoing websocket connection to streamlabs to make sure we don't lose events.
+If there are problems with connectivity, we may need to implement some way of using other endpoints go get data as well.
+
+1. flask app connects to socket api and begins receiving events from Stream Labs
+    - Events are saved locally in a list
+1. browser app pings a GET endpoint asking for the latest events
+1. Flask app responds with all events that have happened
+    - After events are streamed back, they are removed from the list
+1. The client updates its UI in response to the events it received, and schedules another fetch in 5 seconds
+1. New events that the server receives are stored in the list again to repeat the process
+
+We can also enhance this using a websocket between the client + cloud.
+That would allow events to be immediately streamed, with no delay.
+For now, I don't think that is needed, it can be added later on if we need it.
+
 ## Helpful guides/documents:
 ### Setting OAuth 2 with StreamLabs
 https://dev.streamlabs.com/docs/connecting-to-an-account
