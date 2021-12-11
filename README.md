@@ -75,3 +75,15 @@ https://dev.streamlabs.com/docs/socket-api
 https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3
 
 This will be helpful for building pages in the above flow.
+
+
+## Setting up OBS
+
+To set up OBS, we are just going to add a new source.
+Ensure the python app is running then do the following:
+- Add a new source > Browser
+- Name the source whatever you want
+- In the URL enter `http://localhost:51023`
+  - Once the app is deployed to the cloud, this will be the real URL. Users should enter the url `/obsplugin/{token}`
+
+![image](docs/obs-add-plugin.gif)
