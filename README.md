@@ -130,3 +130,28 @@ This will leave the session running in the background
 ```
 ctrl + b  >  d
 ```
+
+### Starting a new version of the app
+Because there is no persistent storage, I am just starting the app from scratch every time.
+Ensure any sessions running it are stopped!
+
+Clone the repo (TODO: add an ssh key to my github to just pull the latest veresion).
+
+```
+cd git-repos
+rm -rf ttv-race-the-timer
+git clone https://github.com/garrison-stauffer/ttv-race-the-timer.git
+```
+
+Set up a virtual environment and download requirements
+```
+python3 -m venv timerapp
+source timerapp/bin/activate
+
+pip install -r requirements.txt
+```
+
+Start the app on a desired port
+```
+flask run --host=0.0.0.0 --port=51023
+```
