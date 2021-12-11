@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskBlog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}" />
+</head>
+<body>
+   <!-- <h1>Welcome to FlaskBlog</h1> -->
+   <h1 id='counter'></h1>
+</body>
+
+<script>
+
+  const counter = document.getElementById('counter');
+  var currentValue = 0;
+
+  const schedule = (body) => {
+    setTimeout(() => {
+      console.log('in the timeout handler')
+      body()
+    }, 2000)
+  }
+
+  const executeUpdate = () => {
+    console.log('update happening')
+    counter.textContent = currentValue++
+    schedule(executeUpdate)
+  }
+
+  schedule(executeUpdate)
+
+  console.log('foo')
+</script>
+</html>
