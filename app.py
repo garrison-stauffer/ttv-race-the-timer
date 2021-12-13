@@ -1,7 +1,7 @@
 import uuid
 from flask import Flask, render_template, request, url_for, session, redirect
 from functools import wraps
-from streamlabs_interfacer import get_access_token, get_socket_token
+from streamlabs_interfacer import get_access_token, get_socket_token, open_socket_connection
 import constants
 
 app = Flask(__name__)
@@ -42,6 +42,7 @@ def login_callback():
 def dashboard():
 	access_token = get_access_token(session['streamlabs.code'])
 	socket_token = get_socket_token(access_token)
+	open_socket_connection(socket_token)
 
 	return render_template('login_callback.html')
 

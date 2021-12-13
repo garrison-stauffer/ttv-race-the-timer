@@ -1,15 +1,34 @@
-from websocket import create_connection
+import socketio
 from pseudo_database import db
 from constants import CLIENT_NAME, CLIENT_SECRET
 import threading
 import requests
 
 
+class MyEventHandlerNamespace(socketio.ClientNamespace):
+    def trigger_event(self, event, *args):
+        print(f"{event}")
+        if args:
+            print(f'data is {args[0]}')
+
+
 def open_socket_connection(stream_token):
+    def foo():
+        sio = socketio.Client()
+        sio.register_namespace(MyEventHandlerNamespace())
+        sio.connect(f'https://sockets.streamlabs.com?token={stream_token}')
+        sio.wait()
+
     # get an access token
     # get a socket token
     # open the socket on a new thread!
-    ws = create_connection()
+
+    thread = threading.Thread(target=foo, name="StreamlabsWebSocket")
+    thread.start()
+
+    while not thread.is_alive():
+        print('waiting for thread to go live')
+    print(thread.is_alive())
 
 
 def get_access_token(steamer_code):
@@ -48,4 +67,4 @@ def get_socket_token(access_token):
     json = response.json()
     print(json)
 
-    return response['stream_token']
+    return json['socket_token']
