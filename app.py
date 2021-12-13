@@ -1,6 +1,7 @@
 import uuid
 from flask import Flask, render_template, request, url_for, session, redirect
 from functools import wraps
+from streamlabs_interfacer import get_access_token, get_socket_token
 import constants
 
 app = Flask(__name__)
@@ -10,6 +11,7 @@ app.secret_key = constants.SESSION_SIGNING_KEY
 def login_required(function):
 	@wraps(function)
 	def decorated(*args, **kwargs):
+		print("hmmm" + session.get('streamlabs.code'))
 		if session.get('streamlabs.code'):
 			return function()  # TODO: Figure out how to forward args, I get an error for now
 
@@ -38,6 +40,9 @@ def login_callback():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+	access_token = get_access_token(session['streamlabs.code'])
+	socket_token = get_socket_token(access_token)
+
 	return render_template('login_callback.html')
 
 
